@@ -1,3 +1,3 @@
 
 
-idk spawnul jsem se a nevi co sem dát
+idk test rearme pro kapika 
