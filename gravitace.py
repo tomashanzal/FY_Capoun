@@ -51,9 +51,13 @@ class Object:#class pro obejct/cirle
         self.down_speed=0
         self.left_speed=0
         self.right_speed=0
+        self.mouse_movement=False
 
     def draw(self, surface):
         pygame.draw.circle(surface, self.color, (self.x, self.y), self.polomer)
+    
+    def polomer_mouse_disatance(self):
+        self.polomer_distance= math.sqrt((pygame.mouse.get_pos()[0] - self.x)**2 + (pygame.mouse.get_pos()[1] - self.y)**2)
 
 
     def gravity_move(self):
@@ -64,7 +68,8 @@ class Object:#class pro obejct/cirle
             self.y +=self.gravity_speed
             self.gravity_speed+=g/fps  
     def gravity_speed_reset(self):
-        self.gravity_speed=0    
+        self.gravity_speed=0  
+
     def move_duraction(self):
         duraction=  pygame.Rect(self.x, self.y, 20, 60)
 
@@ -92,13 +97,17 @@ while running:
         circle.gravity_move()
     else:
         #pohyb circle myš
-        if pygame.mouse.get_pressed()[0]==True and circle.polomer_distance >= circle.polomer and time_button.zmacknuto(event.pos)==False :
+        circle.polomer_mouse_disatance()
+        if pygame.mouse.get_pressed()[0]==True and circle.polomer_distance <= circle.polomer and time_button.zmacknuto(event.pos)==False :
+            circle.mouse_movement=True
+        elif pygame.mouse.get_pressed()[0]==False:
+            circle.mouse_movement=False
+        if circle.mouse_movement==True:
             circle.x=pygame.mouse.get_pos()[0]
             circle.y=pygame.mouse.get_pos()[1]
             circle.gravity_speed_reset()
-        elif pygame.mouse.get_pressed()[2]==True and circle.polomer_distance >= circle.polomer and time_button.zmacknuto(event.pos)==False :
-            circle.gravity_speed_reset()
-            circle.move_duraction()
+        
+       
            
     # Vykreslení
     screen.fill(WHITE)
